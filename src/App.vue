@@ -28,11 +28,13 @@
             <el-button icon="el-icon-arrow-left" @click="handlePrev"></el-button>
             <el-button icon="el-icon-arrow-right" @click="handleNext"></el-button>
           </el-button-group>
-          <br>
-          {{currentPage}}/{{pageTotalNum}}
+          <div v-if="pageTotalNum != 1" style="float: right;">
+            {{currentPage}}/{{pageTotalNum}}
+          </div>
           <pdf
             :page="currentPage"
             ref="pdfView"
+            id="pdfView"
             @num-pages="pageTotalNum=$event"
             :src="url"
           >
