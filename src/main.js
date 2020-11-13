@@ -4,7 +4,6 @@ import 'element-ui/lib/theme-chalk/index.css';
 import axios from 'axios';
 import qs from 'qs';
 import App from './App.vue';
-import router from './router';
 
 Vue.prototype.$axios = axios;
 Vue.prototype.qs = qs;
@@ -13,13 +12,5 @@ Vue.config.productionTip = false;
 Vue.use(ElementUI);
 
 new Vue({
-  router,
   render: (h) => h(App),
 }).$mount('#app');
-
-router.beforeEach((to, from, next) => {
-  if (to.meta.title) {
-    document.title = to.meta.title;
-  }
-  next();
-});
