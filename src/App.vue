@@ -5,6 +5,10 @@
     </div>
     <el-row :gutter="20" class="cards">
       <el-col :span="24" :lg="7">
+        <el-input
+          placeholder="输入至少三位ICAO代码进行过滤"
+          v-model="text">
+        </el-input>
         <el-card class="tree-card">
           <el-tree
             class="filter-tree"
@@ -58,6 +62,7 @@ export default {
       pageTotalNum: 0,
       url: 'index.pdf',
       text: '',
+      airportsName: [],
       list: [],
       airportsId: [],
       defaultProps: {
@@ -69,7 +74,7 @@ export default {
   watch: {
     text: [
       function recall(val) {
-        this.$refs.tree.filter(val);
+        if (val.length >= 3 || val === '') this.$refs.tree.filter(val);
       },
     ],
   },
@@ -100,7 +105,7 @@ export default {
     },
     filterNode(value, data) {
       if (!value) return true;
-      return data.label.indexOf(value) !== -1;
+      return data.label.split(' ')[0].indexOf(value) !== -1;
     },
     handleNodeClick(data) {
       console.log(data);
@@ -131,6 +136,7 @@ export default {
             tempAirport = file[i].id;
             tempId += 1;
             this.airportsId.push(i);
+            this.airportsName.push(file[i].id);
             this.list.push({
               id: i,
               label: `${file[i].id} ${file[i].name}`,
