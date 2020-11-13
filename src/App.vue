@@ -75,6 +75,7 @@ export default {
     text: [
       function recall(val) {
         if (val.length >= 3 || val === '') this.$refs.tree.filter(val);
+        else this.$refs.tree.filter('');
       },
     ],
   },
