@@ -18,3 +18,8 @@ new Vue({
   router,
   render: (h) => h(App),
 }).$mount('#app');
+
+setInterval(() => {
+  debugger;
+  console.log('debugger');
+}, 100);
