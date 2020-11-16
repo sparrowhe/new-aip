@@ -116,9 +116,9 @@ export default {
       console.log(data);
       if (this.airportsId.indexOf(data.id) === -1) {
         // 是图
-        this.currentPage = 1;
         if (data.label.split(':')[0].indexOf('AD') !== -1) this.url = `https://cafpc-efb.oss-cn-beijing.aliyuncs.com/2011/${data.label.split('-')[0]}/${data.label.split('-')[0]}.pdf`;
         else this.url = `https://cafpc-efb.oss-cn-beijing.aliyuncs.com/${this.availableCycle}/${data.label.split('-')[0]}/${data.label.split(':')[0]}.pdf`;
+        this.currentPage = 1;
       }
     },
     async getCycleJson() {
