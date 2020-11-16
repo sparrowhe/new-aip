@@ -18,4 +18,7 @@ export default {
 
 <style>
 
+#nav {
+  padding: 0px;
+}
 </style>
