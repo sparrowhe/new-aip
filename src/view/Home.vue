@@ -1,25 +1,28 @@
 <template>
 <div>
-  <el-row :gutter="20" class="cards">
+  <el-row :gutter="15" class="cards">
     <el-col :span="24" :lg="7">
-      <el-input
-        placeholder="输入至少三位ICAO代码进行过滤"
-        v-model="text">
-      </el-input>
-      <el-card class="tree-card">
-        <el-tree
-          class="filter-tree"
-          :data="list"
-          :props="defaultProps"
-          :filter-node-method="filterNode"
-          accordion
-          @node-click="handleNodeClick"
-          ref="tree">
-        </el-tree>
+      <el-card class="tree-card" shadow="never">
+        <el-input
+          class="search"
+          placeholder="输入至少三位ICAO代码进行过滤"
+          v-model="text">
+        </el-input>
+        <div class="tree-container" style = "height:750px;overflow:auto;">
+          <el-tree
+            class="filter-tree"
+            :data="list"
+            :props="defaultProps"
+            :filter-node-method="filterNode"
+            accordion
+            @node-click="handleNodeClick"
+            ref="tree">
+          </el-tree>
+        </div>
       </el-card>
       </el-col>
     <el-col :span="24" :lg="17">
-      <el-card class="pdf-card">
+      <el-card class="pdf-card" style="height:800px; overflow:auto;">
         <el-button-group>
           <el-button icon="el-icon-zoom-in" @click="handleIn"></el-button>
           <el-button icon="el-icon-zoom-out" @click="handleOut"></el-button>
@@ -38,6 +41,7 @@
         <div v-if="pageTotalNum != 1 && pageTotalNum != undefined" style="float: right;">
           {{currentPage}}/{{pageTotalNum}}
         </div>
+        <div style = "overflow-x:auto;">
         <pdf
           v-loading.fullscreen.lock="loadedRatio != 1"
           :page="currentPage"
@@ -48,6 +52,7 @@
           :src="url"
         >
         </pdf>
+        </div>
       </el-card>
     </el-col>
   </el-row>
@@ -96,7 +101,7 @@ export default {
       this.$refs.pdfView.$el.style.width = `${parseInt(this.scale, 0)}%`;
     },
     handleIn() {
-      if (this.scale < 100) this.scale += 5;
+      if (this.scale < 180) this.scale += 5;
       else return;
       this.$refs.pdfView.$el.style.width = `${parseInt(this.scale, 0)}%`;
     },
@@ -169,4 +174,7 @@ export default {
   align-self: center;
 }
 
+.search {
+  margin-bottom: 5px;
+}
 </style>
