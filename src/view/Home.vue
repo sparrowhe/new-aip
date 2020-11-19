@@ -6,7 +6,7 @@
         <el-input
           class="search"
           placeholder="输入至少三位ICAO代码进行过滤"
-          v-model="text">
+          v-model="findText">
         </el-input>
         <div class="tree-container" style = "height:750px;overflow:auto;">
           <el-tree
@@ -80,6 +80,16 @@ export default {
         label: 'label',
       },
     };
+  },
+  computed: {
+    findText: {
+      get: function getText() {
+        return this.text;
+      },
+      set: function setText(val) {
+        this.text = val.toUpperCase();
+      },
+    },
   },
   watch: {
     text: [
