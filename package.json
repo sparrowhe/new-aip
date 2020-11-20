@@ -12,11 +12,13 @@
     "core-js": "^3.6.5",
     "element-ui": "^2.14.0",
     "leaflet": "^1.7.1",
+    "leaflet-rotatedmarker": "^0.2.0",
     "qs": "^6.9.4",
     "vue": "^2.6.11",
     "vue-cli": "^2.9.6",
     "vue-pdf": "^4.2.0",
-    "vue-router": "^3.2.0"
+    "vue-router": "^3.2.0",
+    "vue2-leaflet-rotatedmarker": "^1.0.9"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

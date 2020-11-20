@@ -3,6 +3,7 @@
   <el-row :gutter="15" class="cards">
     <el-col :span="24" :lg="7">
       <el-card shadow="never">
+        <div>
         <el-input
           class="search"
           placeholder="输入航路/导航台/航路点进行搜索"
@@ -12,6 +13,18 @@
         </el-input>
         <el-button type="primary" @click="search">查询</el-button>
         <el-button type="danger" @click="clear">清空</el-button>
+        </div>
+        <div style="margin-top:5px;">
+        <el-input
+          class="search"
+          placeholder="输入SINO上的机组呼号进行跟踪"
+          v-model="callsign"
+          :disabled="timer !== null"
+        >
+        </el-input>
+        <el-button type="primary" @click="startCracker" :disabled="timer !== null">开始跟踪</el-button>
+        <el-button type="danger" @click="stopCracker" :disabled="timer == null">停止跟踪</el-button>
+        </div>
       </el-card>
       </el-col>
     <el-col :span="24" :lg="17">
@@ -33,6 +46,8 @@
 <script>
 import marker_icon from 'leaflet/dist/images/marker-icon-2x.png';
 import nav_icon from '@/assets/nav_station.png';
+import airplane_icon from '@/assets/aircraft_autonavi.png';
+import 'vue2-leaflet-rotatedmarker';
 
 export default {
   name: 'Erc',
@@ -48,6 +63,9 @@ export default {
       routes: {},
       route_line: null,
       markers: [],
+      callsign: '',
+      timer: null,
+      planeMarker: null,
     };
   },
   watch: {
@@ -125,6 +143,18 @@ export default {
       this.map.flyTo([a, b]);
       this.markers.push(this.L.marker([a, b], { icon: blueIcon }).addTo(this.map));
     },
+    setAirplaneMarker(a, b, c) {
+      const AirplaneIcon = L.icon({
+        iconUrl: airplane_icon,
+        iconAnchor: [10, 10],
+      });
+      this.L.flyTo([a, b]);
+      if (this.planeMarker !== null) {
+        this.planeMarker.setLatLng([a, b]);
+      } else {
+        this.planeMarker = this.L.marker([a, b], { icon: AirplaneIcon, rotationAngle:c}).addTo(this.map);
+      }
+    },
     routeParse(a) {
       let b = !0;
       a = a.split(' ');
@@ -185,19 +215,19 @@ export default {
         latlng: e,
       };
     },
-    addRouteMarker(a,b) {
+    addRouteMarker(a, b, c) {
       const NavIcon = L.icon({
 	      iconUrl: nav_icon,
 	      iconAnchor: [5, 5],
       });
-      this.markers.push(this.L.marker([a, b], { icon: NavIcon }).addTo(this.map))
+      this.markers.push(this.L.marker([a, b], { icon: NavIcon, rotationAngle: c }).addTo(this.map));
     },
     setRoute(route) {
       const a = this.routeParse(route);
       if (a.success) {
-          for (var b in a.latlng) this.addRouteMarker(a.latlng[b][0], a.latlng[b][1]); this.map.flyTo([a.latlng[b][0], a.latlng[b][1]]);
-          this.route_line = L.polyline(a.latlng, { color: "orange" })
-            .addTo(this.map)
+        for (var b in a.latlng) this.addRouteMarker(a.latlng[b][0], a.latlng[b][1]); this.map.flyTo([a.latlng[b][0], a.latlng[b][1]]);
+        this.route_line = L.polyline(a.latlng, { color: 'orange' })
+          .addTo(this.map);
       }
     },
     search() {
@@ -224,13 +254,42 @@ export default {
       });
     },
     clear() {
-      for (var i in this.markers) {
+      for (const i in this.markers) {
         this.markers[i].remove();
       }
       this.markers.length = 0;
       this.route_line.remove();
       this.route_line = null;
-    }
+    },
+    startCracker() {
+      this.timer = setInterval(this.getPositionSINO, 5000);
+    },
+    stopCracker() {
+      clearInterval(this.timer);
+      this.timer = null;
+      this.planeMarker.remove();
+      this.planeMarker = null;
+    },
+    getPositionSINO() {
+      const call = this.callsign;
+      this.$axios.get(`${this.$proxyWhazzupUrl}${Math.random()}`)
+        .then((res) => {
+          const whazzup = res.data.split('\n');
+          const clients_position = whazzup.indexOf('!CLIENTS');
+          for (const a in whazzup) {
+            if (a > clients_position) {
+              const line = whazzup[a].split(':');
+              if (line.indexOf(call) == 0) {
+                this.setAirplaneMarker(line[5], line[6], Math.round(((parseInt(line[line.length - 1]) & 4092) >> 2) / 1024 * 360));
+              }
+            }
+          }
+        });
+    },
+  },
+  beforeDestroy() {
+    clearInterval(this.timer);
+    this.timer = null;
   },
   mounted() {
     this.$nextTick(() => {

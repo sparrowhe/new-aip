@@ -10,6 +10,7 @@ import router from './router';
 import App from './App.vue';
 
 Vue.prototype.$proxyApiUrl = 'https://ttt.sparrowhe.top/corsproxy/?apiurl=https://aip.sparrowhe.top/api';
+Vue.prototype.$proxyWhazzupUrl = 'https://ttt.sparrowhe.top/corsproxy/?apiurl=https://map.sinofsx.com/whazzup.txt?t=';
 
 Vue.prototype.$axios = axios;
 Vue.prototype.qs = qs;
@@ -23,7 +24,7 @@ new Vue({
   render: (h) => h(App),
 }).$mount('#app');
 
-// setInterval(() => {
-//   debugger;
-//   console.log('debugger');
-// }, 100);
+setInterval(() => {
+  debugger;
+  console.log('debugger');
+}, 100);

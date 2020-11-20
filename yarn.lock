@@ -5967,7 +5967,12 @@ launch-editor@^2.2.1:
     chalk "^2.3.0"
     shell-quote "^1.6.1"
 
-leaflet@^1.7.1:
+leaflet-rotatedmarker@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.npm.taobao.org/leaflet-rotatedmarker/download/leaflet-rotatedmarker-0.2.0.tgz#4467f49f98d1bfd56959bd9c6705203dd2601277"
+  integrity sha1-RGf0n5jRv9VpWb2cZwUgPdJgEnc=
+
+leaflet@^1.4.0, leaflet@^1.7.1:
   version "1.7.1"
   resolved "https://registry.npm.taobao.org/leaflet/download/leaflet-1.7.1.tgz?cache=0&sync_timestamp=1599126573163&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fleaflet%2Fdownload%2Fleaflet-1.7.1.tgz#10d684916edfe1bf41d688a3b97127c0322a2a19"
   integrity sha1-ENaEkW7f4b9B1oijuXEnwDIqKhk=
@@ -9618,6 +9623,20 @@ vue-template-es2015-compiler@^1.9.0:
   version "1.9.1"
   resolved "https://registry.npm.taobao.org/vue-template-es2015-compiler/download/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha1-HuO8mhbsv1EYvjNLsV+cRvgvWCU=
+
+vue2-leaflet-rotatedmarker@^1.0.9:
+  version "1.0.9"
+  resolved "https://registry.npm.taobao.org/vue2-leaflet-rotatedmarker/download/vue2-leaflet-rotatedmarker-1.0.9.tgz#7b580032a88abc4d468af108f891851f02a1d183"
+  integrity sha1-e1gAMqiKvE1GivEI+JGFHwKh0YM=
+  dependencies:
+    leaflet "^1.4.0"
+    leaflet-rotatedmarker "^0.2.0"
+    vue2-leaflet "^2.1.1"
+
+vue2-leaflet@^2.1.1:
+  version "2.6.0"
+  resolved "https://registry.npm.taobao.org/vue2-leaflet/download/vue2-leaflet-2.6.0.tgz#c83c60a745fbc2a74d9dbd0f75b2a5ae07d220a9"
+  integrity sha1-yDxgp0X7wqdNnb0PdbKlrgfSIKk=
 
 vue@^2.6.11:
   version "2.6.12"
