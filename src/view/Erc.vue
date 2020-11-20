@@ -148,7 +148,7 @@ export default {
         iconUrl: airplane_icon,
         iconAnchor: [10, 10],
       });
-      this.L.flyTo([a, b]);
+      this.map.flyTo([a, b]);
       if (this.planeMarker !== null) {
         this.planeMarker.setLatLng([a, b]);
       } else {
