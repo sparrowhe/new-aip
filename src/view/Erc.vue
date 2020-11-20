@@ -10,8 +10,8 @@
           @keyup.enter.native="search"
           >
         </el-input>
-        <div class="block">
-        </div>
+        <el-button type="primary" @click="search">查询</el-button>
+        <el-button type="danger" @click="clear">清空</el-button>
       </el-card>
       </el-col>
     <el-col :span="24" :lg="17">
@@ -32,6 +32,7 @@
 
 <script>
 import marker_icon from 'leaflet/dist/images/marker-icon-2x.png';
+import nav_icon from '@/assets/nav_station.png';
 
 export default {
   name: 'Erc',
@@ -45,9 +46,8 @@ export default {
       fixes: {},
       airports: {},
       routes: {},
-      user_route: [],
-      route_points: [],
-      markers: []
+      route_line: null,
+      markers: [],
     };
   },
   watch: {
@@ -108,36 +108,128 @@ export default {
         }
       });
       this.$axios.get(`${url}/airports.db`).then((res) => {
-        const a = res.data.split("\n");
+        const a = res.data.split('\n');
         for (let b = 0, c = a.length; b < c; b += 1) {
-          let e = a[b].split(" ");
-          this.airports[e[0]] = [e[1], e[2]]
+          const e = a[b].split(' ');
+          this.airports[e[0]] = [e[1], e[2]];
         }
       });
     },
     setPosition(a, b, c) {
-      var blueIcon = L.icon({
-	      iconUrl:marker_icon,
+      const blueIcon = L.icon({
+	      iconUrl: marker_icon,
 	      iconSize: [25, 41],
-	      iconAnchor: [13, 21]
+	      iconAnchor: [13, 21],
 	    });
-      this.map.setZoom(c)
-      this.map.flyTo([a,b]);
-      this.markers.push(this.L.marker([a,b], { icon: blueIcon }).addTo(this.map))
+      this.map.setZoom(c);
+      this.map.flyTo([a, b]);
+      this.markers.push(this.L.marker([a, b], { icon: blueIcon }).addTo(this.map));
+    },
+    routeParse(a) {
+      let b = !0;
+      a = a.split(' ');
+      let c = [];
+      for (d in a) a[d].trim() != '' && c.push(a[d].trim());
+      let e = [];
+      a = [];
+      var d = 1;
+      for (var f = c.length; d < f; d += 2) {
+        if (d - 1 >= 0 && d + 1 <= f - 1) e.push([c[d], c[d - 1], c[d + 1]]);
+        else {
+          b = !1;
+          break;
+        }
+      } if (b) {
+        for (d in e) {
+          c = e[d];
+          if (!(c[0] in this.routes) && c[0] != 'DCT') {
+            console.log(`route ${c[0]} does not exist`);
+            b = !1;
+            break;
+          }
+          if (c[0] == 'DCT') {
+            console.log('route DCT does not support');
+            b = !1;
+            break;
+          } else {
+            f = this.routes[c[0]];
+            let g = -1;
+            let h = -1;
+            for (d in f) {
+              if (f[d].split('.')[0] == c[1] && (g = d), f[d].split('.')[0]
+            == c[2] && (h = d), g != -1 && h != -1) break;
+            }
+            if (g == -1 || h == -1) console.log(`navs does not in route ${c[0]}`), b = !1;
+            if (!b) break;
+            g = parseInt(g);
+            h = parseInt(h);
+            if (g > h) for (d = g; d >= h; d--) a.push(f[d]);
+            else for (d = g; d <= h; d++) a.push(f[d]);
+          }
+        }
+      }
+      f = a.length;
+      for (d = f - 1; d >= 1; d--) a[d] == a[d - 1] && a.splice(d, 1);
+      e = [];
+      for (d in a) {
+        if (!(a[d] in this.fixes)) {
+          console.log(`fixes ${a[d]} does not exist`);
+          b = !1;
+          break;
+        }
+        e.push(this.fixes[a[d]]);
+      }
+      return {
+        success: b,
+        routes: a,
+        latlng: e,
+      };
+    },
+    addRouteMarker(a,b) {
+      const NavIcon = L.icon({
+	      iconUrl: nav_icon,
+	      iconAnchor: [5, 5],
+      });
+      this.markers.push(this.L.marker([a, b], { icon: NavIcon }).addTo(this.map))
+    },
+    setRoute(route) {
+      const a = this.routeParse(route);
+      if (a.success) {
+          for (var b in a.latlng) this.addRouteMarker(a.latlng[b][0], a.latlng[b][1]); this.map.flyTo([a.latlng[b][0], a.latlng[b][1]]);
+          this.route_line = L.polyline(a.latlng, { color: "orange" })
+            .addTo(this.map)
+      }
     },
     search() {
       const str = this.text;
       console.log(str);
-      for(let a in this.fixes) {
-        if(a.split('.')[0] == str) {
+      for (const a in this.fixes) {
+        if (a.split('.')[0] == str) {
           console.log(this.fixes[a][0], this.fixes[a][1]);
           this.setPosition(this.fixes[a][0], this.fixes[a][1], 9);
           return;
         }
       }
-      if(str in this.airports) {
+      if (str in this.airports) {
         this.setPosition(this.airports[str][0], this.airports[str][1], 9);
+        return;
       }
+      if (str.indexOf(' ') !== -0) {
+        this.setRoute(str);
+        return;
+      }
+      this.$notify.error({
+        title: '错误',
+        message: '你输入的貌似并不是一个导航台/机场/航路',
+      });
+    },
+    clear() {
+      for (var i in this.markers) {
+        this.markers[i].remove();
+      }
+      this.markers.length = 0;
+      this.route_line.remove();
+      this.route_line = null;
     }
   },
   mounted() {
