@@ -14,7 +14,7 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-      if(localStorage.getItem('visit') == null) {
+      if(localStorage.getItem('visit') !== 'true'){
         localStorage.setItem('visit',true);
         this.$notify({
           title: '警告',
