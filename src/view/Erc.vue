@@ -1,9 +1,25 @@
 <template>
 <div>
-  <el-row :gutter="15" class="cards">
+  <el-row :gutter="8" class="cards">
     <el-col :span="24" :lg="7">
       <el-card shadow="never">
         <div>
+          <el-input
+            class="search"
+            placeholder="起飞机场"
+            v-model="dep"
+            @keyup.enter.native="search"
+            :disabled="isLoading"
+          >
+          </el-input>
+          <el-input
+            class="search"
+            placeholder="降落机场"
+            v-model="arr"
+            @keyup.enter.native="search"
+            :disabled="isLoading"
+          >
+          </el-input>
         <el-input
           class="search"
           placeholder="输入航路/导航台/航路点进行搜索"
@@ -35,11 +51,7 @@
           active-color="#13ce66"
           inactive-color="#ff4949">
         </el-switch>
-        </div>
-      </el-card>
-      </el-col>
-    <el-col :span="24" :lg="17">
-      <el-slider
+        <el-slider
         v-model="opacity"
         :show-tooltip="false"
         :min="0.1"
@@ -47,6 +59,10 @@
         :step="0.01"
         class="silder">
       </el-slider>
+        </div>
+      </el-card>
+      </el-col>
+    <el-col :span="24" :lg="17">
       <div id="map">
       </div>
     </el-col>
@@ -79,6 +95,8 @@ export default {
       planeMarker: null,
       followPosition: false,
       isLoading: false,
+      dep: '',
+      arr: '',
     };
   },
   watch: {
@@ -235,10 +253,36 @@ export default {
       });
       this.markers.push(this.L.marker([a, b], { icon: NavIcon, rotationAngle: c }).addTo(this.map));
     },
-    setRoute(route) {
+    setRoute(route, dep, arr) {
       const a = this.routeParse(route);
+      let flag = false;
+      if(dep !== '' && arr !== '') {
+        if (dep in this.airports) {
+          this.setPosition(this.airports[dep][0], this.airports[dep][1], 9);
+          a.latlng.unshift([this.airports[dep][0], this.airports[dep][1]]);
+          flag = true;
+        } else {
+          flag = false;
+        }
+        if (arr in this.airports) {
+          this.setPosition(this.airports[arr][0], this.airports[arr][1], 9);
+          a.latlng.push([this.airports[arr][0], this.airports[arr][1]]);
+          flag = true;
+        } else {
+          flag = false;
+        }
+      }
+      console.log(a);
       if (a.success) {
-        for (var b in a.latlng) this.addRouteMarker(a.latlng[b][0], a.latlng[b][1]); this.map.flyTo([a.latlng[b][0], a.latlng[b][1]]);
+        for (var b in a.latlng) {
+          if(flag) {
+            if(b == 0 || b == a.latlng.length - 1) {
+              continue;
+            }
+          }
+          this.addRouteMarker(a.latlng[b][0], a.latlng[b][1]);
+          this.map.flyTo([a.latlng[b][0], a.latlng[b][1]]);
+        }
         this.route_line = L.polyline(a.latlng, { color: 'orange' })
           .addTo(this.map);
       } else {
@@ -264,7 +308,7 @@ export default {
         return;
       }
       if (str.indexOf(' ') !== -0) {
-        this.setRoute(str);
+        this.setRoute(str, this.dep, this.arr);
         return;
       }
       this.$notify.error({
@@ -307,6 +351,8 @@ export default {
     },
     loadPlan() {
       this.text = 'Loading...';
+      this.dep = 'Loading...';
+      this.arr = 'Loading...';
       this.isLoading = true;
       const call = this.callsign;
       this.$axios.get(`${this.$proxyWhazzupUrl}${Math.random()}`)
@@ -319,15 +365,21 @@ export default {
               const line = whazzup[a].split(':');
               if (line.indexOf(call) == 0) {
                 this.text = line[30];
+                this.dep = line[11];
+                this.arr = line[13];
                 this.search();
                 return;
               }
             }
           }
           this.text = '404 Not Found';
+          this.dep = '404 Not Found';
+          this.arr = '404 Not Found';
         })
         .catch((err) => {
           this.text = 'Something Error.';
+          this.dep = 'Something Error.';
+          this.arr = 'Something Error.';
           console.log(err);
           this.isLoading = false;
         });
@@ -348,14 +400,12 @@ export default {
 
 <style>
 #map {
-  position: fixed;
   width: 100%;
   height: 90vh;
-  z-index:-1;
 }
-.silder {
-  position: absolute;
-  right: 15px;
-  width: 150px;
+.cards {
+  max-width: 100%;
+  margin-top: 30px;
+  align-self: center;
 }
 </style>
