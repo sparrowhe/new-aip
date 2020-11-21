@@ -272,7 +272,7 @@ export default {
         this.markers[i].remove();
       }
       this.markers.length = 0;
-      this.route_line.remove();
+      this.route_line !== null ? this.route_line.remove() : null;
       this.route_line = null;
     },
     startCracker() {
