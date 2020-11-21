@@ -245,7 +245,7 @@ export default {
     },
     search() {
       const str = this.text;
-      clear();
+      this.clear();
       console.log(str);
       for (const a in this.fixes) {
         if (a.split('.')[0] == str) {
@@ -323,6 +323,7 @@ export default {
         })
         .catch((err) => {
           this.text = 'Something Error.';
+          console.log(err);
           this.isLoading = false;
         });
     }
