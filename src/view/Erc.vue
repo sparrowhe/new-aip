@@ -159,7 +159,7 @@ export default {
     setAirplaneMarker(a, b, c) {
       const AirplaneIcon = L.icon({
         iconUrl: airplane_icon,
-        iconAnchor: [10, 10],
+        iconAnchor: [12, 12],
       });
       this.followPosition ? this.map.flyTo([a, b]) : null;
       if (this.planeMarker !== null) {
@@ -241,6 +241,11 @@ export default {
         for (var b in a.latlng) this.addRouteMarker(a.latlng[b][0], a.latlng[b][1]); this.map.flyTo([a.latlng[b][0], a.latlng[b][1]]);
         this.route_line = L.polyline(a.latlng, { color: 'orange' })
           .addTo(this.map);
+      } else {
+        this.$notify.error({
+          title: '错误',
+          message: '你输入的航路貌似不正确，暂不支持包含DCT的航路',
+        });
       }
     },
     search() {

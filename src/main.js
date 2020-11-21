@@ -24,7 +24,8 @@ new Vue({
   render: (h) => h(App),
 }).$mount('#app');
 
-setInterval(() => {
-  debugger;
-  console.log('debugger');
-}, 100);
+if (process.env.NODE_ENV !== "development") {
+  setInterval(() => {
+    debugger;
+  }, 100);
+}
