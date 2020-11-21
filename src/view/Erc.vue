@@ -9,6 +9,7 @@
           placeholder="输入航路/导航台/航路点进行搜索"
           v-model="findText"
           @keyup.enter.native="search"
+          :disabled="isLoading"
           >
         </el-input>
         <el-button type="primary" @click="search">查询</el-button>
@@ -23,7 +24,17 @@
         >
         </el-input>
         <el-button type="primary" @click="startCracker" :disabled="timer !== null">开始跟踪</el-button>
+        <el-button type="primary" @click="loadPlan">载入计划</el-button>
         <el-button type="danger" @click="stopCracker" :disabled="timer == null">停止跟踪</el-button>
+        </div>
+        <div style="margin-top:5px">
+          <el-switch
+          v-model="followPosition"
+          active-text="跟随位置"
+          inactive-text="不跟随位置"
+          active-color="#13ce66"
+          inactive-color="#ff4949">
+        </el-switch>
         </div>
       </el-card>
       </el-col>
@@ -66,6 +77,8 @@ export default {
       callsign: '',
       timer: null,
       planeMarker: null,
+      followPosition: false,
+      isLoading: false,
     };
   },
   watch: {
@@ -148,7 +161,7 @@ export default {
         iconUrl: airplane_icon,
         iconAnchor: [10, 10],
       });
-      this.map.flyTo([a, b]);
+      this.followPosition ? this.map.flyTo([a, b]) : null;
       if (this.planeMarker !== null) {
         this.planeMarker.setLatLng([a, b]);
       } else {
@@ -286,6 +299,32 @@ export default {
           }
         });
     },
+    loadPlan() {
+      this.text = 'Loading...';
+      this.isLoading = true;
+      const call = this.callsign;
+      this.$axios.get(`${this.$proxyWhazzupUrl}${Math.random()}`)
+        .then((res) => {
+          this.isLoading = false;
+          const whazzup = res.data.split('\n');
+          const clients_position = whazzup.indexOf('!CLIENTS');
+          for (const a in whazzup) {
+            if (a > clients_position) {
+              const line = whazzup[a].split(':');
+              if (line.indexOf(call) == 0) {
+                this.text = line[30];
+                this.search();
+                return;
+              }
+            }
+          }
+          this.text = '404 Not Found';
+        })
+        .catch((err) => {
+          this.text = 'Something Error.';
+          this.isLoading = false;
+        });
+    }
   },
   beforeDestroy() {
     clearInterval(this.timer);
