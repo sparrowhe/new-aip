@@ -245,6 +245,7 @@ export default {
     },
     search() {
       const str = this.text;
+      clear();
       console.log(str);
       for (const a in this.fixes) {
         if (a.split('.')[0] == str) {
