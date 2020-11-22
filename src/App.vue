@@ -14,8 +14,8 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-      if(localStorage.getItem('visit') !== 'true'){
-        localStorage.setItem('visit',true);
+      if (localStorage.getItem('visit') !== 'true') {
+        localStorage.setItem('visit', true);
         this.$notify({
           title: '警告',
           message: '本查看器所有航行资料来源于CAAC ATMB，仅限用于模拟飞行，不对数据的完整性和正确性做保证，不承担使用本查看器所造成的任何责任',

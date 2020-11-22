@@ -183,7 +183,7 @@ export default {
       if (this.planeMarker !== null) {
         this.planeMarker.setLatLng([a, b]);
       } else {
-        this.planeMarker = this.L.marker([a, b], { icon: AirplaneIcon, rotationAngle:c}).addTo(this.map);
+        this.planeMarker = this.L.marker([a, b], { icon: AirplaneIcon, rotationAngle: c }).addTo(this.map);
       }
     },
     routeParse(a) {
@@ -256,7 +256,7 @@ export default {
     setRoute(route, dep, arr) {
       const a = this.routeParse(route);
       let flag = false;
-      if(dep !== '' && arr !== '') {
+      if (dep !== '' && arr !== '') {
         if (dep in this.airports) {
           this.setPosition(this.airports[dep][0], this.airports[dep][1], 9);
           a.latlng.unshift([this.airports[dep][0], this.airports[dep][1]]);
@@ -274,9 +274,9 @@ export default {
       }
       console.log(a);
       if (a.success) {
-        for (var b in a.latlng) {
-          if(flag) {
-            if(b == 0 || b == a.latlng.length - 1) {
+        for (const b in a.latlng) {
+          if (flag) {
+            if (b == 0 || b == a.latlng.length - 1) {
               continue;
             }
           }
@@ -383,7 +383,7 @@ export default {
           console.log(err);
           this.isLoading = false;
         });
-    }
+    },
   },
   beforeDestroy() {
     clearInterval(this.timer);

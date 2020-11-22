@@ -9,8 +9,9 @@ import 'leaflet/dist/leaflet.css';
 import router from './router';
 import App from './App.vue';
 
-Vue.prototype.$proxyApiUrl = 'https://ttt.sparrowhe.top/corsproxy/?apiurl=https://aip.sparrowhe.top/api';
-Vue.prototype.$proxyWhazzupUrl = 'https://ttt.sparrowhe.top/corsproxy/?apiurl=https://map.sinofsx.com/whazzup.txt?t=';
+Vue.prototype.$proxyApiUrl = 'http://efbapi.0225.vaoc.net/api';
+Vue.prototype.$proxyWhazzupUrl = 'http://efbapi.0225.vaoc.net/api/whazzup';
+Vue.prototype.$proxyWeatherUrl = 'http://efbapi.0225.vaoc.net/metar';
 
 Vue.prototype.$axios = axios;
 Vue.prototype.qs = qs;
@@ -24,7 +25,7 @@ new Vue({
   render: (h) => h(App),
 }).$mount('#app');
 
-if (process.env.NODE_ENV !== "development") {
+if (process.env.NODE_ENV !== 'development') {
   setInterval(() => {
     debugger;
   }, 100);
