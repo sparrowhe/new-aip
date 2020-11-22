@@ -1,5 +1,5 @@
 <template>
-  <el-card style="width: 800px; margin: auto; margin-top: 10px">
+  <el-card style="width: 800px auto; margin: auto; margin-top: 10px">
     <h1>关于</h1>
     <p>这是一款船新的AIP查看器，但他更像是一个EFB，汇集了模拟飞行中常用的工具和资料，而且在不断的完善和扩充中。</p>
     <p>在开发这款工具的同时，使用了许多开源的库和程序，为我的开发提供了极大的便利，在此一并向其表示感谢：</p>
@@ -15,7 +15,7 @@
     <p>还有许多。按照开源界传统习俗，本查看器以GPLv2在GitHub开源：sparrowhe/new-aip。</p>
     <p>同时也获得了许多人的支持和帮助。目前该项目免费公开供大家使用，虽然前端架设在GitHubPages上，但后端服务器和CDN也是一步不小的开支。</p>
     <p>如果你认可我的劳动成果并且想要支持我，可以扫描二维码打赏，备注打赏人和事项，我将会把这笔钱全部用在网站的维护上。</p>
-    <el-avatar shape="square" :size="500" fit="scale-down" src="https://i.loli.net/2020/11/22/dkwET9sluOchJF4.jpg"></el-avatar>
+    <el-avatar shape="square" :size="320" fit="scale-down" src="https://i.loli.net/2020/11/22/dkwET9sluOchJF4.jpg"></el-avatar>
     <p>真的<span @click="wahaha">{{ text }}</span>感谢</p>
   </el-card>
 </template>
