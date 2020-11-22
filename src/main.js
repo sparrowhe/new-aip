@@ -9,9 +9,9 @@ import 'leaflet/dist/leaflet.css';
 import router from './router';
 import App from './App.vue';
 
-Vue.prototype.$proxyApiUrl = 'http://efbapi.0225.vaoc.net/api';
-Vue.prototype.$proxyWhazzupUrl = 'http://efbapi.0225.vaoc.net/api/whazzup';
-Vue.prototype.$proxyWeatherUrl = 'http://efbapi.0225.vaoc.net/metar';
+Vue.prototype.$proxyApiUrl = 'https://efbapi.0225.vaoc.net/api';
+Vue.prototype.$proxyWhazzupUrl = 'https://efbapi.0225.vaoc.net/api/whazzup';
+Vue.prototype.$proxyWeatherUrl = 'https://efbapi.0225.vaoc.net/metar';
 
 Vue.prototype.$axios = axios;
 Vue.prototype.qs = qs;
