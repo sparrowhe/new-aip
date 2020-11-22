@@ -13,7 +13,7 @@
       <li>Express</li>
     </ul>
     <p>还有许多。按照开源界传统习俗，本查看器以GPLv2在GitHub开源：sparrowhe/new-aip。</p>
-    <p>同时也获得了许多人的支持和帮助。目前该项目免费公开供大家使用，虽然前端架设在GitHubPages上，但后端服务器和CDN也是一步不小的开支。</p>
+    <p>同时也获得了许多人的支持和帮助。目前该项目免费公开供大家使用，虽然前端架设在GitHubPages上，但后端服务器和CDN也是一笔不小的开支。</p>
     <p>如果你认可我的劳动成果并且想要支持我，可以扫描二维码打赏，备注打赏人和事项，我将会把这笔钱全部用在网站的维护上。</p>
     <el-avatar shape="square" :size="320" fit="scale-down" src="https://i.loli.net/2020/11/22/dkwET9sluOchJF4.jpg"></el-avatar>
     <p>真的<span @click="wahaha">{{ text }}</span>感谢</p>
