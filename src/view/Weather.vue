@@ -130,13 +130,13 @@ export default {
                   console.log(awosData[a]);
                   dataTemp.runway.push({
                     name: awosData[a].awos[b].NAME,
-                    mor: awosData[a].awos[b].MOR_1A.toString().replace('-999','///'),
-                    rvr: awosData[a].awos[b].RVR_1A.toString().replace('-999','///'),
-                    qnh: awosData[a].awos[b].QNH.toString().replace('-999','///'),
-                    qfe: awosData[a].awos[b].QFE.toString().replace('-999','///'),
-                    cbase: awosData[a].awos[b].CLD_HL.toString().replace('-999','///'),
-                    humid: awosData[a].awos[b].HUMID.toString().replace('-999','///'),
-                    temp: awosData[a].awos[b].TEMP.toString().replace('-999','///'),
+                    mor: awosData[a].awos[b].MOR_1A.toString().replace('-999','无数据'),
+                    rvr: awosData[a].awos[b].RVR_1A.toString().replace('-999','无数据'),
+                    qnh: awosData[a].awos[b].QNH.toString().replace('-999','无数据'),
+                    qfe: awosData[a].awos[b].QFE.toString().replace('-999','无数据'),
+                    cbase: awosData[a].awos[b].CLD_HL.toString().replace('-999','无数据'),
+                    humid: awosData[a].awos[b].HUMID.toString().replace('-999','无数据'),
+                    temp: awosData[a].awos[b].TEMP.toString().replace('-999','无数据'),
                   });
                 }
                 this.awos.push(dataTemp);

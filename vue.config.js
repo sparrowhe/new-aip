@@ -27,13 +27,6 @@ module.exports = {
       config.optimization.minimizer[0].options.terserOptions.compress.drop_debugger = false;
       config.optimization.minimizer[0].options.terserOptions.compress.pure_funcs = ['console.log'];
       // 为生产环境修改配置
-      config.plugins.push(
-        new JSEncodePlugin({
-          global: '___',
-          jsReg: /^app\..+\.js$/,
-          assetsPath: './dist/js',
-        }),
-      );
     }
   },
 };
