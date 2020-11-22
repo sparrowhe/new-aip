@@ -8,10 +8,10 @@
     :default-active="$route.path"
     router
 >
-    <el-menu-item disabled>CAFPC</el-menu-item>
     <el-menu-item index="/">机场图</el-menu-item>
     <el-menu-item index="/erc">航路图</el-menu-item>
     <el-menu-item index="/weather">气象</el-menu-item>
+    <el-menu-item index="/about">关于</el-menu-item>
 </el-menu>
 </template>
 

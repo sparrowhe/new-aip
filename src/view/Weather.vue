@@ -124,19 +124,19 @@ export default {
               this.data = 0;
               for (const a in awosData) {
                 const dataTemp = {};
-                //dataTemp.runway_group = awosData[a].rno;
+                // dataTemp.runway_group = awosData[a].rno;
                 dataTemp.runway = [];
                 for (const b in awosData[a].awos) {
                   console.log(awosData[a]);
                   dataTemp.runway.push({
                     name: awosData[a].awos[b].NAME,
-                    mor: awosData[a].awos[b].MOR_1A.toString().replace('-999','无数据'),
-                    rvr: awosData[a].awos[b].RVR_1A.toString().replace('-999','无数据'),
-                    qnh: awosData[a].awos[b].QNH.toString().replace('-999','无数据'),
-                    qfe: awosData[a].awos[b].QFE.toString().replace('-999','无数据'),
-                    cbase: awosData[a].awos[b].CLD_HL.toString().replace('-999','无数据'),
-                    humid: awosData[a].awos[b].HUMID.toString().replace('-999','无数据'),
-                    temp: awosData[a].awos[b].TEMP.toString().replace('-999','无数据'),
+                    mor: awosData[a].awos[b].MOR_1A.toString().replace('-999', '无数据'),
+                    rvr: awosData[a].awos[b].RVR_1A.toString().replace('-999', '无数据'),
+                    qnh: awosData[a].awos[b].QNH.toString().replace('-999', '无数据'),
+                    qfe: awosData[a].awos[b].QFE.toString().replace('-999', '无数据'),
+                    cbase: awosData[a].awos[b].CLD_HL.toString().replace('-999', '无数据'),
+                    humid: awosData[a].awos[b].HUMID.toString().replace('-999', '无数据'),
+                    temp: awosData[a].awos[b].TEMP.toString().replace('-999', '无数据'),
                   });
                 }
                 this.awos.push(dataTemp);
