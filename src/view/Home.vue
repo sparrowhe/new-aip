@@ -41,8 +41,9 @@
         <div v-if="pageTotalNum != 1 && pageTotalNum != undefined" style="float: right;">
           {{currentPage}}/{{pageTotalNum}}
         </div>
-        <div style = "overflow-x:auto;">
+        <div>
         <pdf
+          style = "overflow:auto;"
           v-loading.fullscreen.lock="loadedRatio != 1"
           :page="currentPage"
           ref="pdfView"
