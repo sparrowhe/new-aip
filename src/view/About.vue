@@ -46,7 +46,7 @@ export default {
       text: '非常非常',
       counter: 4,
       tipCounter: 0,
-      handle: null
+      handle: null,
     };
   },
   methods: {

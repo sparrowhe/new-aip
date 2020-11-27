@@ -26,11 +26,11 @@
       </div>
     </el-col>
     <el-col :span="24" :lg="12">
+      <p v-if="otime !== ''">更新时间：{{ otime }}</p>
       <div v-for="(itema,i) in awos" :key="i">
         <el-card>
           <!-- {{ itema.runway_group }} -->
         <!-- <div v-for="(item,x) in itema.runway" :key="x"> -->
-            {{ item }}
             <el-table
               :data="itema.runway"
               border
@@ -88,6 +88,7 @@ export default {
       text: '',
       weathers: [],
       awos: [],
+      otime: '',
     };
   },
   methods: {
@@ -121,6 +122,10 @@ export default {
             this.awos = [];
             if (data.status == 0) {
               const awosData = data.data;
+              if(!awosData.length) {
+                this.otime='';
+                return;
+              }
               this.data = 0;
               for (const a in awosData) {
                 const dataTemp = {};
@@ -138,6 +143,7 @@ export default {
                     humid: awosData[a].awos[b].HUMID.toString().replace('-999', '无数据'),
                     temp: awosData[a].awos[b].TEMP.toString().replace('-999', '无数据'),
                   });
+                  this.otime = awosData[a].awos[b].OTIME;
                 }
                 this.awos.push(dataTemp);
               }

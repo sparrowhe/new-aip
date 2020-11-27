@@ -1,5 +1,3 @@
-const JSEncodePlugin = require('./js-encode-plugin');
-
 module.exports = {
   lintOnSave: false,
   productionSourceMap: false,
