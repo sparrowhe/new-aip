@@ -6,7 +6,8 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "deploy": "python ./deploy"
+    "deploy": "python ./deploy",
+    "push": "git push http://github.com/sparrowhe/new-aip master"
   },
   "dependencies": {
     "axios": "^0.21.0",
