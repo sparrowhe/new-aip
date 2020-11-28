@@ -22,8 +22,10 @@
       </el-card>
       </el-col>
     <el-col :span="24" :lg="17">
-      <el-card class="pdf-card" style="height:800px; overflow:auto;">
-        <el-button-group>
+      <el-card>
+        <span>
+          控制:
+          <el-button-group>
           <el-button icon="el-icon-zoom-in" @click="handleIn"></el-button>
           <el-button icon="el-icon-zoom-out" @click="handleOut"></el-button>
         </el-button-group>
@@ -38,6 +40,9 @@
             :disabled="pageTotalNum == 1 && pageTotalNum !== undefined ? true : false"
           ></el-button>
         </el-button-group>
+        </span>
+      </el-card>
+      <el-card class="pdf-card" style="height:750px; overflow:auto;">
         <div v-if="pageTotalNum != 1 && pageTotalNum != undefined" style="float: right;">
           {{currentPage}}/{{pageTotalNum}}
         </div>
