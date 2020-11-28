@@ -12,6 +12,9 @@
         <el-button type="primary" @click="search">查询</el-button>
       </el-card>
       <br>
+      <el-card shadow="never">
+        <p>本页面中所有时间均为UTC时间</p>
+      </el-card>
     </el-col>
     <el-col :lg="7">
       <div v-for="(item,i) in weathers" :key="i">
