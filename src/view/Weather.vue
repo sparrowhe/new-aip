@@ -28,7 +28,7 @@
       </el-card>
     </el-col>
     <el-col :lg="7">
-      <div v-if="radar .length > 0">
+      <div v-if="radar.length>0">
             <el-image
               :src="radar[0]"
               :preview-src-list="radar">
@@ -119,13 +119,13 @@ export default {
           const { data } = res;
           if (data.status == 0) {
             const RadarData = data.data;
-            this.radar.length=0
+            this.radar.length = 0;
             for (const i in RadarData) {
               // this.radar.push({
               //   src: RadarData[i].IMAGE,
               //   name: RadarData[i].NAME,
               // });
-              this.radar.push('http://caac.xafande.com:8000'+RadarData[i].IMAGE)
+              this.radar.push(`${this.$proxyApiUrl}/image/${RadarData[i].IMAGE}`)
             }
           }
         });
