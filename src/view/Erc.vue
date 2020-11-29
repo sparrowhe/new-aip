@@ -335,7 +335,7 @@ export default {
     },
     getPositionSINO() {
       const call = this.callsign;
-      this.$axios.get(`${this.$proxyWhazzupUrl}?${Math.random()}`)
+      this.$axios.post(`${this.$proxyWhazzupUrl}?${Math.random()}`)
         .then((res) => {
           const whazzup = res.data.split('\n');
           const clients_position = whazzup.indexOf('!CLIENTS');
@@ -355,7 +355,7 @@ export default {
       this.arr = 'Loading...';
       this.isLoading = true;
       const call = this.callsign;
-      this.$axios.get(`${this.$proxyWhazzupUrl}?${Math.random()}`)
+      this.$axios.post(`${this.$proxyWhazzupUrl}?${Math.random()}`)
         .then((res) => {
           this.isLoading = false;
           const whazzup = res.data.split('\n');

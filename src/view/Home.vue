@@ -145,7 +145,7 @@ export default {
     },
     async getCycleJson() {
       await this.getAvailableCycle();
-      this.$axios.get(`${this.$proxyApiUrl}/getCycleJson/${this.availableCycle}`)
+      this.$axios.post(`${this.$proxyApiUrl}/getCycleJson/${this.availableCycle}`)
         .then((res) => {
           const file = res.data;
           let tempAirport = '';
@@ -173,7 +173,7 @@ export default {
         });
     },
     async getAvailableCycle() {
-      await this.$axios.get(`${this.$proxyApiUrl}/available`).then((res) => {
+      await this.$axios.post(`${this.$proxyApiUrl}/available`).then((res) => {
         this.availableCycle = res.data.version;
       });
     },

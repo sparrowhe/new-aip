@@ -99,7 +99,7 @@ export default {
       if (this.text.length !== 4) {
 
       } else {
-        this.$axios.get(`${this.$proxyWeatherUrl}/${this.text.toUpperCase()}`)
+        this.$axios.post(`${this.$proxyWeatherUrl}/${this.text.toUpperCase()}`)
           .then((res) => {
             const { data } = res;
             if (data.status == 0) {
@@ -119,7 +119,7 @@ export default {
             this.$message.error('出现了一些微小的偏差');
             console.log(err);
           });
-        this.$axios.get(`${this.$proxyWeatherUrl}/awos/${this.text.toUpperCase()}`)
+        this.$axios.post(`${this.$proxyWeatherUrl}/awos/${this.text.toUpperCase()}`)
           .then((res) => {
             const { data } = res;
             this.awos = [];
