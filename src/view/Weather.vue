@@ -2,21 +2,38 @@
   <el-row :gutter="15" class="cards">
     <el-col :span="24" :lg="5">
       <el-card>
+        <div style="display:flex;flex-direction:row;justify-content:flex-start">
         <el-input
           class="search"
           placeholder="输入机场ICAO代码查询"
           v-model="text"
-          @keyup.enter.native="search"
           >
         </el-input>
-        <el-button type="primary" @click="search">查询</el-button>
+        <el-button type="primary" @click="search">查询报文</el-button>
+        </div>
+        <br>
+        <div style="display:flex;flex-direction:row;justify-content:flex-start">
+        <el-input
+          class="search"
+          placeholder="输入机场ICAO代码查询"
+          v-model="text"
+          >
+        </el-input>
+        <el-button type="primary" @click="searchRadar">查询雷达图</el-button>
+        </div>
       </el-card>
       <br>
       <el-card shadow="never">
-        <p>本页面中所有时间均为UTC时间</p>
+        <p>除特殊标注外本页面中所有时间均为UTC时间</p>
       </el-card>
     </el-col>
     <el-col :lg="7">
+      <div v-if="radar .length > 0">
+            <el-image
+              :src="radar[0]"
+              :preview-src-list="radar">
+            </el-image>
+          </div>
       <div v-for="(item,i) in weathers" :key="i">
       <el-card>
         {{ item.content }}
@@ -92,9 +109,28 @@ export default {
       weathers: [],
       awos: [],
       otime: '',
+      radar: [],
     };
   },
   methods: {
+    searchRadar() {
+      if (this.text.length == 4) {
+        this.$axios.post(`${this.$proxyWeatherUrl}/radar/${this.text.toUpperCase()}`).then((res) => {
+          const { data } = res;
+          if (data.status == 0) {
+            const RadarData = data.data;
+            this.radar.length=0
+            for (const i in RadarData) {
+              // this.radar.push({
+              //   src: RadarData[i].IMAGE,
+              //   name: RadarData[i].NAME,
+              // });
+              this.radar.push('http://caac.xafande.com:8000'+RadarData[i].IMAGE)
+            }
+          }
+        });
+      }
+    },
     search() {
       if (this.text.length !== 4) {
 
@@ -125,8 +161,8 @@ export default {
             this.awos = [];
             if (data.status == 0) {
               const awosData = data.data;
-              if(!awosData.length) {
-                this.otime='';
+              if (!awosData.length) {
+                this.otime = '';
                 return;
               }
               this.data = 0;
