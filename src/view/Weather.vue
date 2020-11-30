@@ -125,7 +125,7 @@ export default {
               //   src: RadarData[i].IMAGE,
               //   name: RadarData[i].NAME,
               // });
-              this.radar.push(`${this.$proxyApiUrl}/image/${RadarData[i].IMAGE}`)
+              this.radar.push(`${this.$proxyApiUrl}/image/${RadarData[i].IMAGE}`);
             }
           }
         });

@@ -10,15 +10,15 @@ export default {
   name: 'Naip',
   data() {
     return {
-      text: '需要授权'
-    }
+      text: '需要授权',
+    };
   },
   methods: {
     ar() {
       this.text = '授权成功';
     },
   },
-}
+};
 </script>
 
 <style>

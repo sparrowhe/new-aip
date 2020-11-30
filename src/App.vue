@@ -13,6 +13,7 @@ export default {
     navbar: Navbar,
   },
   mounted() {
+    this.initCNZZ();
     this.$nextTick(() => {
       if (localStorage.getItem('visit') !== 'true') {
         localStorage.setItem('visit', true);
@@ -25,6 +26,29 @@ export default {
       }
     });
   },
+
+  methods: {
+    initCNZZ() {
+      // 添加脚本
+      const script = document.createElement('script');
+      script.src = 'https://s9.cnzz.com/z_stat.php?id=1279478936&web_id=1279478936';
+      script.language = 'JavaScript';
+      script.id = 'cnzz';
+      document.body.appendChild(script);
+    },
+  },
+  watch: {
+    $route() {
+      if (window._czc) {
+        // 监听路由变化
+        const { location } = window;
+        const contentUrl = location.pathname + location.hash;
+        const refererUrl = '/';
+        window._czc.push(['_trackPageview', contentUrl, refererUrl]);
+      }
+    },
+  },
+
 };
 </script>
 
