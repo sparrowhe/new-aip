@@ -175,6 +175,14 @@ export default {
     async getAvailableCycle() {
       await this.$axios.post(`${this.$proxyApiUrl}/available`).then((res) => {
         this.availableCycle = res.data.version;
+        if (localStorage.getItem('cycle') !== this.availableCycle.toString()) {
+          this.$axios.post(`${this.$proxyApiUrl}/getCycleNotam/${this.availableCycle}`).then((res) => {
+            this.$alert(res.data.notam, `查看器数据已经更新至${this.availableCycle}期`, {
+              confirmButtonText: '确定',
+            });
+            localStorage.setItem('cycle', this.availableCycle.toString());
+          })
+        }
       });
     },
   },
