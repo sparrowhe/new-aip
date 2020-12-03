@@ -1,3 +1,5 @@
+const Compression = require('compression-webpack-plugin');
+
 module.exports = {
   lintOnSave: false,
   productionSourceMap: false,
@@ -21,10 +23,15 @@ module.exports = {
   },
   configureWebpack: (config) => {
     if (process.env.NODE_ENV === 'production') {
-      config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true;
-      config.optimization.minimizer[0].options.terserOptions.compress.drop_debugger = false;
-      config.optimization.minimizer[0].options.terserOptions.compress.pure_funcs = ['console.log'];
-      // 为生产环境修改配置
+      return {
+        plugins: [
+          new Compression({
+            test: /\.js$|\.html$|\.css/,
+            threshold: 10240,
+            deleteOriginalAssets: false
+          })
+        ]
+      }
     }
   },
 };
