@@ -5,6 +5,7 @@ import Erc from '@/view/Erc.vue';
 import Weather from '@/view/Weather.vue';
 import Naip from '@/view/Naip.vue';
 import About from '@/view/About';
+import NotFound from '@/view/404.vue'
 
 Vue.use(VueRouter);
 
@@ -34,6 +35,11 @@ const routes = [
     name: 'About',
     component: About,
   },
+  {
+    path: '*',
+    name: '404',
+    component: NotFound,
+  }
 ];
 
 const router = new VueRouter({
