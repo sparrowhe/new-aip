@@ -15,7 +15,7 @@ export default {
   },
   methods: {
     ar() {
-      this.text = '授权成功';
+      this.text = '授权成功，但你还是没有NAIP看';
     },
   },
 };
